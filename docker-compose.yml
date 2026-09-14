@@ -1,0 +1,11 @@
+services:
+  c-compiler:
+    build: .
+    ports:
+      - "8081:8081"
+    environment:
+      - PORT=8081
+      - COMPILER_IMAGE=codhoot-runner-c:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
