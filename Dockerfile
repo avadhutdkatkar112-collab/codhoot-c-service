@@ -9,7 +9,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o /out/service .
 FROM debian:bookworm-slim@sha256:f3034a6ec3c1205360777c4aae76234998866ad18806ae62b63a3f84ccad782b
 LABEL org.opencontainers.image.title="codhoot-c-service"
 LABEL org.opencontainers.image.description="Hardened c execution sandbox"
-RUN apt-get update && apt-get install -y --no-install-recommends gcc libc6-dev make make
+RUN apt-get update && apt-get install -y --no-install-recommends gcc libc6-dev make
 RUN rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY --from=builder /out/service /app/service
@@ -43,6 +43,7 @@ RUN set -eu; \
 # There is deliberately no HEALTHCHECK here: it would require curl or wget in the
 # image, and Render already health-checks /health over HTTP. Adding a network
 # client purely for a healthcheck would enlarge the attack surface for no gain.
+
 ENV PORT=8081
 EXPOSE 8081
 CMD ["/app/service"]
